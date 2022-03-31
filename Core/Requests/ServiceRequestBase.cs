@@ -50,7 +50,7 @@ namespace Microsoft.Exchange.WebServices.Data
         /// </remarks>
         private const string AnchorMailboxHeaderName = "X-AnchorMailbox";
         private const string ExplicitLogonUserHeaderName = "X-OWA-ExplicitLogonUser";
-       
+
         private static readonly string[] RequestIdResponseHeaders = new[] { "RequestId", "request-id", };
         private const string XMLSchemaNamespace = "http://www.w3.org/2001/XMLSchema";
         private const string XMLSchemaInstanceNamespace = "http://www.w3.org/2001/XMLSchema-instance";
@@ -68,8 +68,8 @@ namespace Microsoft.Exchange.WebServices.Data
         /// </remarks>
         internal string AnchorMailbox
         {
-           get;
-           set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -108,7 +108,11 @@ namespace Microsoft.Exchange.WebServices.Data
 
         private static Stream WrapStream(Stream responseStream, string contentEncoding)
         {
-            if (contentEncoding.ToLowerInvariant().Contains("gzip"))
+            if (contentEncoding == null)
+            {
+                return responseStream;
+            }
+            else if (contentEncoding.ToLowerInvariant().Contains("gzip"))
             {
                 return new GZipStream(responseStream, CompressionMode.Decompress);
             }
